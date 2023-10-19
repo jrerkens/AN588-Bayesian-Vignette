@@ -1,0 +1,71 @@
+---
+title: "An introduction to Bayesian analysis for biological anthropologists"
+author: "Jimmy Erkens"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+    toc_float: true
+    code_folding: show
+    theme: journal
+---
+
+![Every statistics professor i've had has a serious parasocial relationship with xkcd](https://imgs.xkcd.com/comics/frequentists_vs_bayesians_2x.png)
+
+# What are Bayesian statistics?
+
+I think the best way to understand _Bayesian statistics_ is to contrast with _frequentist statistics_. Throughout this class we've learned how to create and interpret exclusively frequentist statistics. Essentially, we've been treating probability as a measure of frequency. In this paradigm, there is a true, _correct_, value for a parameter of interest and as we collect more and more data, our estimation of the parameter will to approach the truth. This is fine when it works, but what do we do when we realize we realize we _need_ a sample larger than what we can realistically manage? What if you _really_ want to think of confidence intervals in terms of probability and not %confidence? You don't know what the parameter is, and you think your data is good, but what if you're still feeling a bit iffy about how well your data matches up with the _truth_? Enter Bayesian statistics.
+\
+\
+\
+Bayesian statistics are otherwise known as _subjective_ statistics! 
+\
+\
+\
+Let's say we want to learn about a parameter: $\theta$.
+\
+\
+\
+With a Bayesian paradigm, we make inferences on $\theta$ combining our  _prior_ knowledge of $\theta$ and the _likelihood_ of receiving our data. In other words, we're integrating whatever data we have with our subjective thoughts of how the data is parameterized. From this fun collaboration, we generate a _posterior_ probability distribution of samples of $\theta$
+\
+\
+\
+
+## What's going on under the hood
+
+Bayesian inference is an applciation of Baye's Probability Rule (you've already done this fun fact!). 
+\
+\
+\
+Baye's Rule states that $P(A|B) = \frac{P(A|B) \times P(A)}{P(B)}$. Instead of individual probabilities, let's think of probability distributions. We can make an educated guess on how $\theta$ is distributed (an informative prior), or we can throw in the towel and admit we know very little on how $\theta$ is distributed (an uninformative prior). Our data can't be changed (this is the objective part of Bayesian statistics), we can see it just simply _is_ distributed in a certain way. From these distributions, our goal is then to find how $\theta$ is distributed _GIVEN_ the data that we have
+\
+\
+
+![Bayesian statistics are hard](https://imgs.xkcd.com/comics/seashell_2x.png)
+
+Bayesian statistics can be complex and a lot of work. Without recent beefy computers, Bayesian statistics had to be calculated by hand (this is hard and not fun) were _EXTREMELY_ limited in their applications.
+
+# Bayesian modeling using `rjags`
+
+Let's check out the titi monkey paradigm from homework again!
+
+## Let's load some libraries
+
+\
+
+##...and simulate some data
+
+So previous knowledge says that the average number of calls in a 2hr period is 15. Let's assume in reality, on average there are actually 10 calls in a 2hr period (we just sampled when they were particularly gregarious).
+
+
+
+## Frequentist inference
+
+
+
+## Bayesian inference
+
+
+
+# Bayesian modeling using `brms`
