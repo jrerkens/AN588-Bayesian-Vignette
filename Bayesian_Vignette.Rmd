@@ -320,10 +320,7 @@ ppt_credinterval <- quantile(fit_samples$ppt, probs = c(0.025, 0.975)); ppt_cred
 ppt_problessthan <- sum(fit_samples$ppt < 15)/length(fit_samples$ppt); ppt_problessthan
 ```
 
-So credible interval, analogous to confidence interval, is from 10.97 to 15.98, the range here is 4.72. With 95% probability, there are between 10.97 an 15.98 titi monkeys in a given area via a PPT method. The probability that the PPT method finds a sample less than 15 is 0.895. In frequentist world, this would be frustrating. However in Bayesian world this _is_ a valid answer, it just matters on how we interpret it. How do we interpret this probability? What does it mean to not think of things in terms of significance? How certain are we that the parameter falls under 15? Do you think 89.5% probability is high enough?
-\
-\
-
+So credible interval, analogous to confidence interval, is from 10.97 to 15.98, the range here is 5.01. With 95% probability, there are between 10.97 an 15.98 titi monkeys in a given area via a PPT method. The probability that the PPT method finds a sample less than 15 is 0.895. In frequentist world, this would be frustrating. However in Bayesian world this _is_ a valid answer, it just matters on how we interpret it. How do we interpret this probability? What does it mean to not think of things in terms of significance? How certain are we that the parameter falls under 15? Do you think 89.5% probability is high enough?
 \
 \
 
@@ -335,13 +332,22 @@ hr_credinterval <- quantile(fit_samples$homerange, probs = c(0.025, 0.975)); hr_
 # the probability lambda > 15
 hr_probmorethan <- sum(fit_samples$homerange > 15)/length(fit_samples$homerange); hr_probmorethan
 ```
-\
-\
-\
+
 So... our credible interval for the homerange estimate is 12.66 to 18.12, range is 5.46. Is there more or less certainty about the homerange estimates or the playback point transects? What about our null hypothesis that we're greater than 15. 56.3% of our samples are greater than 15, what do you think? Is this different from 15?
+
 \
 \
-\
+Are our estimates different from one another?
+
+```{r}
+diff_data <- fit_samples$homerange - fit_samples$ppt # subtract the two samples, then create a credible interval!
+diffr_credinterval <- quantile(diff_data, probs = c(0.025, 0.975)); diffr_credinterval
+# okay but what's the probability homerange estimates more than ppt?
+diffr_prop <- sum(diff_data > 0)/length(diff_data); diffr_prop
+```
+
+Okay, so we still can't say with 95% probability these two methods are different, but compared to the frequentist confidence interval (-1.964508, 6.250222) we're reducing uncertainty. The Bayesian method _is_ giving us a stronger estimate . We also find that 84% of homerange estiamtes are larger than ppt. Again, there's no "oh but what if our sample..." flat out, 84% of homerange estimates are going to be larger. Is this different enough for you?
+
 ![Is this titi monkey visible enough for you?](https://www.animal.photos/mamm2/titi-cop_files/redtiti8.jpg)
 \
 From Bayesian world, I'm able to say the playback method not only provides a slightly more certain estimate of the number of titi's in a given over the homerange method. Moreover, I'd say we have reason to think the number of titi's in a given area, via the playback method, is less than 15.
@@ -479,9 +485,23 @@ ppt_normprobmorethan
 So with playback point transect for the normal we have a slightly smaller credible interval (4.95) compared to the gamma (5.2). However, the probability that our playback point transect estimates less than 15 is 86.7%. 
 \
 \
+Let's try comparing the two again:
+
+```{r}
+diff_data <- fit_samples_norm$homerange - fit_samples_norm$ppt # subtract the two samples, then create a credible interval!
+diffr_credinterval <- quantile(diff_data, probs = c(0.025, 0.975)); diffr_credinterval
+# okay but what's the probability homerange estimates more than ppt?
+diffr_prop <- sum(diff_data > 0)/length(diff_data); diffr_prop
+```
+
+So we get very similar results to the Gamma estimate, but our credible interval is ever so slightly smaller. Our probability homerange is greater than ppt is also a bit smaller, what's going on there?
+
 ![This figure was uploaded by Hideyoshi Yanagisawa](https://www.researchgate.net/profile/Hideyoshi-Yanagisawa/publication/330577376/figure/fig1/AS:718458304086017@1548305216392/Example-of-Bayesian-inference-with-a-prior-distribution-a-posterior-distribution-and_W640.jpg)
 
 ### So... which is better?
+
+The answer is... it depends
+\
 
 Let's be clear here, you shouldn't work multiple JAGS models and pick the one that gives you the answer you want. Rather, you gotta pick a prior BECAUSE it best models the parameter you're looking at and stick with it. If you're a stats wizard, you can think it through. For instance, despite the slight increase in uncertainty relative to a normal prior, I think a gamma prior works better for this context because of the limitations of a poisson distribution. But let's say you aren't a stats wizard, you should probably go for either a normal or a uniform prior. 
 \
